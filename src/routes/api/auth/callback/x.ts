@@ -4,22 +4,7 @@ export const Route = createFileRoute("/api/auth/callback/x")({
   server: {
     handlers: {
       GET: async ({ request }) => {
-                const url = new URL(request.url);
-        if (url.searchParams.get("debug") === "setupr_secret_diag") {
-          try {
-            const { getTwitterDiag } = await import("@/lib/oauth.server");
-            const diag = await getTwitterDiag();
-            return new Response(JSON.stringify(diag, null, 2), {
-              status: 200,
-              headers: { "Content-Type": "application/json" },
-            });
-          } catch (e: any) {
-            return new Response(JSON.stringify({ error: e.message || String(e) }), {
-              status: 500,
-              headers: { "Content-Type": "application/json" },
-            });
-          }
-        }
+        const url = new URL(request.url);
         const code = url.searchParams.get("code");
         const state = url.searchParams.get("state");
         const error = url.searchParams.get("error");
